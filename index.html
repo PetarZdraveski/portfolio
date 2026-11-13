@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Petar Zdraveski – Portfolio</title>
+  <meta name="description" content="Portfolio of Petar Zdraveski, student at University American College Skopje.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <a class="logo" href="#home">Petar Zdraveski</a>
+    <nav aria-label="Main">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <h1>I build things that run in the cloud.</h1>
+      <p class="lead">Hi, I'm Petar Zdraveski. I study Software Engineering at University American College Skopje, and this site is hosted on Microsoft Azure.</p>
+      <a class="button" href="#contact">Send me a message</a>
+    </section>
+
+    <section id="about">
+      <h2>About me</h2>
+      <p>I’m a student at University American College Skopje, studying Software Engineering. I enjoy turning ideas into working software, and I’m especially interested in cloud computing because it lets you publish and run an application without owning any servers. I like learning by building things, and this website is part of my Cloud Computing course project.</p>
+    </section>
+
+    <section id="projects">
+      <h2>Projects</h2>
+      <ul class="projects">
+        <li>
+          <h3>Portfolio website on Azure</h3>
+          <p>This site. It is hosted on Azure Static Web Apps and redeploys automatically from GitHub every time I push a change.</p>
+        </li>
+        <li>
+          <h3>Project name</h3>
+          <p>Replace this with a short description of a project from your studies.</p>
+        </li>
+        <li>
+          <h3>Project name</h3>
+          <p>Replace this with another project, or delete this item.</p>
+        </li>
+      </ul>
+    </section>
+
+    <section id="skills">
+      <h2>Skills</h2>
+      <ul class="skills">
+        <li>HTML and CSS</li>
+        <li>JavaScript</li>
+        <li>Git and GitHub</li>
+        <li>Microsoft Azure</li>
+      </ul>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>Leave a message and I will get back to you.</p>
+      <form id="contact-form" novalidate>
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" autocomplete="name" required>
+
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" required>
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+
+        <button class="button" type="submit">Send message</button>
+        <p id="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Your Name. Hosted on Microsoft Azure.</p>
+  </footer>
+
+  <script>
+    const form = document.getElementById('contact-form');
+    const status = document.getElementById('form-status');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const data = {
+        name: form.name.value.trim(),
+        email: form.email.value.trim(),
+        message: form.message.value.trim()
+      };
+      if (!data.name || !data.email || !data.message) {
+        status.textContent = 'Fill in your name, email and message.';
+        return;
+      }
+      status.textContent = 'Sending...';
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        if (!response.ok) throw new Error('Request failed');
+        form.reset();
+        status.textContent = 'Message sent. Thank you!';
+      } catch (error) {
+        status.textContent = 'The message was not sent. Try again in a moment.';
+      }
+    });
+  </script>
+</body>
+</html>
